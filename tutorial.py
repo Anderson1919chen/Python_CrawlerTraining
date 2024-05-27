@@ -23,11 +23,14 @@ time.sleep(2)
 
 titles = driver.find_elements(By.XPATH, "//h3")
 for title in titles:
-    print(title.text)
+    print(title.text)# 取得標籤內部的文字
 
-#search = driver.find_element(By.NAME, "query")
-#search.send_keys("比特幣")
-#search.send_keys(Keys.RETURN) #會被Dcard擋
+driver.get("https://www.dcard.tw/f")
+search = driver.find_element(By.NAME, "query")
+time.sleep(2)
+search.send_keys("比特幣")
+time.sleep(2)
+search.send_keys(Keys.RETURN) #會被Dcard擋
 
 
 time.sleep(5)
