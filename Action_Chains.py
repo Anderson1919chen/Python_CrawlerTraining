@@ -44,25 +44,28 @@ pictrue = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, '//*[@id="hdtb-sc"]/div/div/div[1]/div/div[2]/a/div'))
 )
 pictrue.click()
-WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.CLASS_NAME, "YQ4gaf"))
-)
-img = driver.find_element(By.CLASS_NAME, "YQ4gaf")
+images = driver.find_elements(By.CLASS_NAME, "YQ4gaf")
 
-actions = ActionChains(driver)
-actions.click(img)
-#actions.context_click(on_element=None)
-# 創建資料夾儲存下載的圖片
-#path = "C:/Users/User/Desktop/selenium_tutorial"
-#path = os.path.join(keyword)
-#os.mkdir(path)
+if not os.path.exists(keyword):
+    os.makedirs(keyword)
 
-#count = 0
-#for img in imgs:
-    #save_as = os.path.join(path, keyword + str(count) + ".jpg")
-    #print(img.get_attribute("src"))
-    #wget.download(img.get_attribute("src"), save_as)
-    #count  += 1
+count = 0
+#for img in images:    
+    #src = img.get_attribute("src") or img.get_attribute("data-src")
+    #save_as = os.path.join("C:/Users/User/Desktop/selenium_tutorial", keyword , f"{keyword}{count}.jpg")
+    #wget.download(src , out = save_as)
+    #count += 1
+    
+for img in images:    
+    src = img.get_attribute("src") or img.get_attribute("data-src")
+    if src:
+        save_as = os.path.join("C:/Users/User/Desktop/selenium_tutorial", keyword , f"{keyword}{count}.jpg")
+        try:
+            wget.download(src , out = save_as)
+            print(f"Image saved as: {save_as}")
+        except Exception as e:
+            print(f"Failed to download {src}. Error: {e}")
+        count += 1
 
 time.sleep(5)
 driver.quit()
